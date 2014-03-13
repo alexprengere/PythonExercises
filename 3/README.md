@@ -1,6 +1,6 @@
 ## Exercise 3
 
-### Problem 1
+### Problem
 
 For this third exercise, we want to manipulate dates in Python.
 
