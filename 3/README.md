@@ -16,10 +16,5 @@ It may be interesting to display also some additional information regarding the 
 
 ### Help
 
-In Python, you can get the rest of the division of an integer by another one with `%`:
-```python
-5 % 3 # returns 2
-4 % 2 # returns 0 because 2 divides 4 ;)
-```
 In Python, the `datetime` package is used to manipulate dates. More particularly, `datetime.strptime()` is very useful to parse dates with different formats...
 
