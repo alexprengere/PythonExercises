@@ -1,7 +1,8 @@
+## Exercise 1
 
-# Problem
+### Problem
 
-For this first exercise, we want to code a program counting the words of a text file, without case.
+For this first exercise, we want to code a program `count.py` counting the words of a text file, without case.
 
 The program should work as follow:
 ```bash
@@ -24,11 +25,11 @@ banana 1
 salad 1
 ```
 
-# Bonus
+### Bonus
 
 Write the words with a relevant order, for example in alphabetical order, or by frequency.
 
-# Help
+### Help
 
 To access command-line arguments from Python:
 ```python
