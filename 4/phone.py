@@ -5,7 +5,7 @@ import re
 
 
 def is_number(n):
-    """This is a faster implementation of is_number ;).
+    """This is an implementation of `is_number` and is not needed in this exercise ;).
 
     >>> is_number('44')
     True
