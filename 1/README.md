@@ -12,17 +12,17 @@ $ python count.py file.txt
 If `file.txt` has those three lines:
 ```bash
 $ cat file.txt
-Apple banana
-apple
 Salad
+Apple banana
+Banana
 ```
 
 The program should give:
 ```bash
 $ python count.py file.txt
-apple 2
-banana 1
-salad 1
+salad   1
+apple   1
+banana  2
 ```
 
 ### Bonus
