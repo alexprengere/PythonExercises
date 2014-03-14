@@ -15,7 +15,7 @@ Then, using (multiple) inheritance, create a class `Triathlete` who is able to r
 
 ### Bonus
 
-Write a unit test in a separate file `test.py`.
+Write a unit test in a separate file `test.py`. It may be interesting to use `doctest` also.
 
 ### Help
 
