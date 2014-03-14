@@ -2,10 +2,10 @@
 
 ### Problem
 
-For this fifth exercise, we want to manipulate class inheritance.
+For this sixth exercise, we want to manipulate class inheritance.
 We are going to use the `Runner` class from the previous exercise.
 
-Create a class `Swimmer` and a class `Biker` with the same rules as `Runner`.
+Create a class `Swimmer` and a class `Biker` following the same rules as `Runner`.
 Then, using (multiple) inheritance, create a class `Triathlete` who is able to run triathlons:
 ```python
 >>> t = Triathlete(swim_speed=3, bike_speed=20, run_speed=15)
