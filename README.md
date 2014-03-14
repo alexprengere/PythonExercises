@@ -9,4 +9,5 @@ Difficulty may increase with the number of exercises I add:
 * *3* : dates
 * *4* : regular expressions
 * *5* : classes
+* *6* : inheritance
 
