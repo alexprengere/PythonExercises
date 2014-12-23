@@ -6,9 +6,11 @@ For this fifth exercise, we want to manipulate classes.
 
 We would like to create a class `Runner` representing a runner.
 ```python
->>> r = Runner(run_speed=20) # km/h
->>> r.run(distance=10)       # km
-0.5 # time, hours
+>>> from runner import Runner
+>>> r = Runner('Sara', run_speed=20) # km/h
+>>> r.run(distance=10)               # distance is km, result in hours
+0.5
+
 ```
 
 The `Runner` class should be able to handle:

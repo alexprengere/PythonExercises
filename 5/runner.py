@@ -1,5 +1,14 @@
 #!/usr/bin/env python
 
+"""
+Implentation of Runner class.
+
+>>> from runner import Runner
+>>> r = Runner('Sara', run_speed=20) # km/h
+>>> r.run(distance=10)               # distance is km, result in hours
+0.5
+"""
+
 
 class Runner(object):
     """A runner
@@ -7,6 +16,9 @@ class Runner(object):
     def __init__(self, name, run_speed):
         self.name = name
         self.run_speed = run_speed
+
+    def run(self, distance):
+        return distance / float(self.run_speed)
 
     def __str__(self):
         return "I am %s, I run at %d km/h" % (self.name, self.run_speed)
@@ -29,9 +41,6 @@ class Runner(object):
         ```
         """
         return self.run_speed.__cmp__(other.run_speed)
-
-    def run(self, distance):
-        return distance / float(self.run_speed)
 
 
 if __name__ == '__main__':
