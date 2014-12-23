@@ -21,5 +21,5 @@ Write a unit test in a separate file `test.py`.
 
 ### Help
 
-To compare objects with `<` or `>`, their classes must implement the `__lt__` and `___gt__` methods.
+To compare objects with `<=` or `=>`, their classes must implement the `__lt__` and `___gt__` methods.
 
