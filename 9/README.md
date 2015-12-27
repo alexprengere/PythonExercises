@@ -23,7 +23,6 @@ The board could be numbered like this, to identify each cell:
 ```
 Then, the game could be played like this
 ```
-
 -------------
 | X | X | O |
 -------------
@@ -39,7 +38,7 @@ Player O won against player X!
 ### Help
 
 * User input should *not* be able to break the program (some exception-catching must be done :wink:).
-* The board could be represented with a `class`, with at least the following methods:
+* The board could be represented with a class `Board`, with at least the following methods:
     * `board.update(player, move)`
     * `board.is_full()`
     * `board.has_winner()`
