@@ -14,6 +14,6 @@ Exercises
 4. *[regular expressions](https://github.com/alexprengere/PythonExercises/tree/master/4)*
 5. *[classes](https://github.com/alexprengere/PythonExercises/tree/master/5)*
 6. *[inheritance](https://github.com/alexprengere/PythonExercises/tree/master/6)*
-7. *[file paths](https://github.com/alexprengere/PythonExercises/tree/master/7)*
-8. *[Scrabble](https://github.com/alexprengere/PythonExercises/tree/master/8)*
+7. *[paths manipulation](https://github.com/alexprengere/PythonExercises/tree/master/7)*
+8. *[scrabble](https://github.com/alexprengere/PythonExercises/tree/master/8)*
 
