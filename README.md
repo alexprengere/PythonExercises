@@ -16,4 +16,5 @@ Exercises
 6. *[inheritance](https://github.com/alexprengere/PythonExercises/tree/master/6)*
 7. *[paths manipulation](https://github.com/alexprengere/PythonExercises/tree/master/7)*
 8. *[scrabble](https://github.com/alexprengere/PythonExercises/tree/master/8)*
+9. *[tic tac toe](https://github.com/alexprengere/PythonExercises/tree/master/9)*
 
