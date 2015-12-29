@@ -47,10 +47,10 @@ class Board(object):
 
 def main():
     b = Board()
-    b.show()
-    player = 'A'
+    player = 'X'
 
     while True: # game loop
+        b.show()
         while True: # user input loop until legal move
             move = raw_input('> Player {0}, enter your move: '.format(player))
             try:
@@ -58,18 +58,19 @@ def main():
             except (ValueError, IllegalMoveError) as e:
                 print(e)
             else:
-                b.show()
                 break
 
         if b.has_won(player):
+            b.show()
             print('{0} has won!'.format(player))
             break
 
         if b.is_full():
+            b.show()
             print('Game is finished, no winner...')
             break
 
-        player = 'B' if player == 'A' else 'A'
+        player = 'O' if player == 'X' else 'X'
 
 
 if __name__ == '__main__':
