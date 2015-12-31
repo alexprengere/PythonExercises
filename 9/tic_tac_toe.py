@@ -3,23 +3,16 @@
 
 from __future__ import with_statement, print_function
 
-
 class IllegalMoveError(Exception):
     pass
-
 
 class Board(object):
     def __init__(self):
         self.cells = [None] * 9
         self.lines = [
-            (0, 1, 2),
-            (3, 4, 5),
-            (6, 7, 8),
-            (0, 3, 6),
-            (1, 4, 7),
-            (2, 5, 8),
-            (0, 4, 8),
-            (2, 4, 6),
+            (0, 1, 2), (3, 4, 5), (6, 7, 8), # horizontal
+            (0, 3, 6), (1, 4, 7), (2, 5, 8), # vertical
+            (0, 4, 8), (2, 4, 6),            # diagonal
         ]
 
     def is_full(self):
@@ -72,5 +65,4 @@ if __name__ == '__main__':
             print('\nGame is finished, no winner...')
             break
 
-        player = 'O' if player == 'X' else 'X'
-
+        player = 'O' if player == 'X' else 'X' # X/O swap
