@@ -10,7 +10,7 @@ class IllegalMoveError(Exception):
 
 class Board(object):
     def __init__(self):
-        self.cells = [None for _ in range(9)]
+        self.cells = [None] * 9
         self.lines = [
             (0, 1, 2),
             (3, 4, 5),
@@ -39,18 +39,22 @@ class Board(object):
             raise IllegalMoveError('Illegal move {0}, {1} owns it!'.format(move, self.cells[index]))
         self.cells[index] = player
 
-    def show(self):
+    def show(self, moves=False):
         # Indices are reversed for better playability with the numpad
         for i, j in ((6, 9), (3, 6), (0, 3)):
-            print(' | '.join('.' if c is None else c for c in self.cells[i:j]))
+            if moves:
+                print(' | '.join(str(i + 1 + j) for j in range(3)))
+            else:
+                print(' | '.join('.' if c is None else c for c in self.cells[i:j]))
+
 
 
 def main():
     b = Board()
+    b.show(moves=True)
     player = 'X'
 
     while True: # game loop
-        b.show()
         while True: # user input loop until legal move
             move = raw_input('> Player {0}, enter your move: '.format(player))
             try:
@@ -58,15 +62,14 @@ def main():
             except (ValueError, IllegalMoveError) as e:
                 print(e)
             else:
+                b.show()
                 break
 
         if b.has_won(player):
-            b.show()
             print('{0} has won!'.format(player))
             break
 
         if b.is_full():
-            b.show()
             print('Game is finished, no winner...')
             break
 
