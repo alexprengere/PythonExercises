@@ -38,5 +38,9 @@ Player O won against player X!
 
 ### Bonus
 
-Cells numbers could be reversed from top to bottom to match the numpad layout).
-
+Cells numbers could be reversed from top to bottom to match the numpad layout.
+```
+7 | 8 | 9
+4 | 5 | 6
+1 | 2 | 3
+```
