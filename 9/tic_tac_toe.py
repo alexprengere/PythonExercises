@@ -33,10 +33,10 @@ class Board(object):
 
     def update(self, player, move):
         if not 1 <= move <= 9:
-            raise IllegalMoveError('Illegal move {0}, outside of 1-9'.format(move))
+            raise IllegalMoveError('Illegal move {0}, not in [1,..,9]'.format(move))
         index = move - 1 # index starts at 0
         if self.cells[index] is not None:
-            raise IllegalMoveError('Illegal move {0}, {1} owns it!'.format(move, self.cells[index]))
+            raise IllegalMoveError('Illegal move {0}, "{1}" owns it!'.format(move, self.cells[index]))
         self.cells[index] = player
 
     def show(self, moves=False):
@@ -48,15 +48,14 @@ class Board(object):
                 print(' | '.join('.' if c is None else c for c in self.cells[i:j]))
 
 
-
-def main():
+if __name__ == '__main__':
     b = Board()
     b.show(moves=True)
     player = 'X'
 
     while True: # game loop
         while True: # user input loop until legal move
-            move = raw_input('> Player {0}, enter your move: '.format(player))
+            move = raw_input('> Player "{0}", enter your move: '.format(player))
             try:
                 b.update(player, int(move))
             except (ValueError, IllegalMoveError) as e:
@@ -66,15 +65,12 @@ def main():
                 break
 
         if b.has_won(player):
-            print('{0} has won!'.format(player))
+            print('\n"{0}" has won!'.format(player))
             break
 
         if b.is_full():
-            print('Game is finished, no winner...')
+            print('\nGame is finished, no winner...')
             break
 
         player = 'O' if player == 'X' else 'X'
 
-
-if __name__ == '__main__':
-    main()
