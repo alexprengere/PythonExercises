@@ -1,0 +1,4 @@
+Rice 200 15
+Pasta 300 12
+Cake 150 3
+Icecream 50 5
