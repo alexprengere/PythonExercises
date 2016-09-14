@@ -4,7 +4,7 @@
 
 This time, we want to build a simple web application. Let's suppose we have a list of races in a CSV file:
 
-```
+```bash
 $ cat races.csv
 2015,Marathon Nice Cannes,42km,03:55:12
 2015,Trail des Alpes Maritimes,25km,04:51:10
@@ -47,7 +47,7 @@ Now let's improve it!
 
 `pip` is the Python package manager. If it is not installed on your machine, you can install it with:
 
-```
+```bash
 # easy_install should be on your machine, if not, you need
 # to install python-setuptools with your package manager
 easy_install --user pip
@@ -56,6 +56,6 @@ easy_install --user pip
 `virtualenv` is a tool helping you work in isolated environments. With this, when you install a new package, you will only see it in your virtual environment, allowing you to cleanly separate the dependencies of your projects.
 Install it like any other package with:
 
-```
+```bash
 pip install --user virtualenv
 ```
