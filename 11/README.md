@@ -35,21 +35,25 @@ start
     └── index.html
 ```
 
-Then launch the webapp like this:
+You can already launch the webapp with:
 
 ```bash
 python start/app.py races.csv
 ```
 
+Now let's improve it!
+
 ### Help
 
-`pip` is the Python package manager. If it is not installed on your machine, you can install it using (`setuptools` must be installed):
+`pip` is the Python package manager. If it is not installed on your machine, you can install it with:
 
 ```
+# easy_install should be on your machine, if not, you need
+# to install python-setuptools with your package manager
 easy_install --user pip
 ```
 
-`virtualenv` is a tool helping you work in isolated environments. With this, when you install a new package, you will only see it in your virtual environment, allowing you to cleancly separate the dependencies of your projects.
+`virtualenv` is a tool helping you work in isolated environments. With this, when you install a new package, you will only see it in your virtual environment, allowing you to cleanly separate the dependencies of your projects.
 Install it like any other package with:
 
 ```
