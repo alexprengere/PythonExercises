@@ -31,4 +31,4 @@ datetime.now()
 
 + it can work on any function, regardless of the function arguments
 + it takes an argument to run the decorated function multiple times, to get a more accurate measurement (useful for fast functions), like `@measure(N=10)`
-+ it will make sure the decorated function keeps the function metadata, see [the doc](https://docs.python.org/2/library/functools.html#functools.wraps)
++ it will make sure the decorated function keeps the function metadata, like `long_function.__name__`, see [the doc](https://docs.python.org/2/library/functools.html#functools.wraps)
