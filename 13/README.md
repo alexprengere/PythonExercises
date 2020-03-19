@@ -10,7 +10,7 @@ The program should work as follow:
 $ python sudoku.py file.txt
 ```
 
-If `file.txt` has those three lines:
+If `file.txt` has those lines:
 
 ```bash
 $ cat file.txt
