@@ -34,10 +34,6 @@ $ python sudoku.py file.txt
 ... the Sudoku solved! ...
 ```
 
-### Bonus
-
-It might be interesting to know if several solutions are possible, or if none are possible.
-
 ### Help
 
 Start by writing some code that checks the validity of a solution.
