@@ -7,13 +7,13 @@ For this exercise, we want to code a program `sudoku.py` that solves a Sudoku ga
 The program should work as follow:
 
 ```bash
-$ python sudoku.py file.txt
+$ python sudoku.py examples/simple.txt
 ```
 
-If `file.txt` has those lines:
+If `simple.txt` has those lines:
 
 ```bash
-$ cat file.txt
+$ cat examples/simple.txt
 53. .7. ...
 6.. 195 ...
 .98 ... .6.
@@ -30,7 +30,9 @@ $ cat file.txt
 The program should give:
 
 ```bash
-$ python sudoku.py file.txt
+$ python sudoku.py examples/simple.txt
+534 678 912
+...
 ... the Sudoku solved! ...
 ```
 
