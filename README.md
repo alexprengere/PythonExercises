@@ -19,3 +19,5 @@ Exercises
 9. *[tic tac toe](https://github.com/alexprengere/PythonExercises/tree/master/09)*
 10. *[the best meal](https://github.com/alexprengere/PythonExercises/tree/master/10)*
 11. *[web page](https://github.com/alexprengere/PythonExercises/tree/master/11)*
+12. *[decorators](https://github.com/alexprengere/PythonExercises/tree/master/12)*
+13. *[sudoku](https://github.com/alexprengere/PythonExercises/tree/master/13)*
