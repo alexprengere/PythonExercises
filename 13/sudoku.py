@@ -21,16 +21,15 @@ def read(rows):
 
 
 def show(sudoku):
-    """Pretty print the content, kind of the opposite of read()"""
+    """Pretty print the content, kind of the opposite of `read`"""
     for i, line in enumerate(get_lines(sudoku), start=1):
         if i in (4, 7):
             print()
-        row = []
         for j, n in enumerate(line, start=1):
             if j in (4, 7):
-                row.append(" ")
-            row.append("." if n is None else str(n))
-        print("".join(row))
+                print(" ", end="")
+            print("." if n is None else str(n), end="")
+        print()
 
 
 def get_lines(sudoku):
