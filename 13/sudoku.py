@@ -3,135 +3,163 @@ import itertools
 
 
 def read(rows):
-    """Reads the list of rows and returns the sudoku dict"""
-    grid = []
-    for row in rows:
-        row = row.rstrip()
-        if not row:
-            continue
-        grid.append([None if v == "." else int(v) for v in row if v != " "])
+    """Reads the list of rows and returns the sudoku dict.
 
-    # A single dict mapping an (i, j) index to a known value, or None
-    # Indices go from 1 to 9
+    The sudoku dict maps an index to a known value. Unknown values are not written.
+    Indices go from 0 to 80.
+    """
     sudoku = {}
-    for i, line in enumerate(grid, start=1):
-        for j, n in enumerate(line, start=1):
-            sudoku[i, j] = n
+    i = 0
+    for rn, row in enumerate(rows):
+        if rn in (3, 7):
+            continue
+        j = 0
+        for cn, c in enumerate(row.rstrip()):
+            if cn in (3, 7):
+                continue
+            if c != ".":
+                sudoku[i * 9 + j] = int(c)
+            j += 1
+        i += 1
+
     return sudoku
 
 
 def show(sudoku):
     """Pretty print the content, kind of the opposite of `read`"""
-    for i, line in enumerate(get_lines(sudoku), start=1):
-        if i in (4, 7):
+    for k in range(81):
+        i, j = k // 9, k % 9
+        print(sudoku.get(k, "."), end="")
+        if j in (2, 5):
+            print(" ", end="")
+        elif j == 8:
             print()
-        for j, n in enumerate(line, start=1):
-            if j in (4, 7):
-                print(" ", end="")
-            print("." if n is None else str(n), end="")
-        print()
+            if i in (2, 5):
+                print()
 
 
-def get_lines(sudoku):
-    for i in range(1, 10):
-        yield [sudoku[i, j] for j in range(1, 10)]
+def get_neighbor_indices(k):
+    """Returns indices of cases on the same line/column/square as the index"""
 
+    i, j = k // 9, k % 9
 
-def get_columns(sudoku):
-    for j in range(1, 10):
-        yield [sudoku[i, j] for i in range(1, 10)]
-
-
-def get_squares(sudoku):
-    for li in (1, 4, 7):
-        for lj in (1, 4, 7):
-            yield [sudoku[i, j] for i in range(li, li + 3) for j in range(lj, lj + 3)]
-
-
-def get_neighbor_indices(i, j):
-    """Returns indices of cases on the same line/column/square as (i, j)"""
     # Same line indices
-    for dj in range(1, 10):
+    for dj in range(9):
         if dj != j:
-            yield (i, dj)
+            yield i * 9 + dj
 
     # Same column indices
-    for di in range(1, 10):
+    for di in range(9):
         if di != i:
-            yield (di, j)
+            yield di * 9 + j
 
     # Same square indices
-    li = 1 + (i - 1) // 3 * 3
-    lj = 1 + (j - 1) // 3 * 3
+    li = i // 3 * 3
+    lj = j // 3 * 3
     for di in range(li, li + 3):
         for dj in range(lj, lj + 3):
             if (di, dj) != (i, j):
-                yield (di, dj)
-
-
-def is_solved(sudoku):
-    return all(
-        set(numbers) == set(range(1, 10))
-        for numbers in itertools.chain(
-            get_lines(sudoku), get_columns(sudoku), get_squares(sudoku)
-        )
-    )
+                yield di * 9 + dj
 
 
 def solve(sudoku):
     """Solves the Sudoku in place, or raises ValueError if not solvable."""
 
-    while not is_solved(sudoku):
-        # Used to check progress at the end of the loop
-        prev_sudoku = sudoku.copy()
+    # List of possibilities for an index
+    possibilities = {}
+    for k in range(81):
+        if k not in sudoku:
+            possibilities[k] = {1, 2, 3, 4, 5, 6, 7, 8, 9}
+    unknown = set(possibilities)
 
-        # List of possibilities for an (i, j) index
-        poss = {}
-        for i_j, n in sudoku.items():
-            if n is None:
-                poss[i_j] = set(range(1, 10))
-            else:
-                poss[i_j] = {n}
+    # Mapping of indices that affects other indices
+    neighbors = {}
+    for k in range(81):
+        neighbors[k] = set(get_neighbor_indices(k)) & unknown
 
-        # First, we remove the possibilities in same line/column/square
-        for i_j, n in sudoku.items():
-            if n is None:
-                continue
-            for di_dj in get_neighbor_indices(*i_j):
-                if n in poss[di_dj]:
-                    poss[di_dj].remove(n)
+    # We remove the possibilities in same line/column/square
+    for k, n in sudoku.items():
+        for di_dj in neighbors[k]:
+            if n in possibilities[di_dj]:
+                possibilities[di_dj].remove(n)
 
-        # When the possibilities are reduced to 1 single value, we write to sudoku
-        for i_j in list(poss):
-            if len(poss[i_j]) == 1:
-                sudoku[i_j] = poss[i_j].pop()
-                del poss[i_j]  # remove (i, j) from the possibilities
+    stack = [(sudoku, possibilities)]
+    while stack:
+        state, poss = stack.pop()
 
-        # Do not go recursive if we made progress
-        if prev_sudoku != sudoku:
-            continue
-
-        # Recursively split on the fewest possibilities
-        i_j = min(poss, key=lambda k: len(poss[k]))
-        for n in poss[i_j]:
-            # Let's hypothesize that value at position i_j is n
-            hyp_sudoku = sudoku.copy()
-            hyp_sudoku[i_j] = n
-            try:
-                solve(hyp_sudoku)  # can go recursive
-            except ValueError:
-                # That possibility lead to a non solvable Sudoku.
-                pass
-            else:
-                # That possibility lead to a resolution.
-                # We store the result, the main loop will break
-                # at the next iteration.
-                sudoku.update(hyp_sudoku)
+        # First we sync the state with the latest changes of poss.
+        # When the possibilities are reduced to 1 single value, we write to state
+        # Then we loop to reduce other possibilities, and so on
+        while True:
+            updated = False
+            for k in list(poss):
+                if len(poss[k]) == 1:
+                    state[k] = n = poss[k].pop()
+                    del poss[k]  # remove from the possibilities
+                    for di_dj in neighbors[k]:
+                        if di_dj in poss and n in poss[di_dj]:
+                            poss[di_dj].remove(n)
+                            updated = True
+            if not updated:
                 break
 
-        # No progress, no need no go further this is not solvable
-        if prev_sudoku == sudoku:
-            raise ValueError("Not solvable")
+        # No more possibilities means we finished it
+        if not poss:
+            sudoku.update(state)
+            return
+
+        # Find the place with fewest possibilities, and add those to the stack
+        min_k = min(poss, key=lambda k: len(poss[k]))
+
+        # At this time we might have an empty poss value if the sudoku is wrong
+        values = list(poss[min_k])
+        if not values:
+            continue
+
+        # Processing all values but the first
+        for n in values[1:]:
+            new_state = state.copy()
+            new_state[min_k] = n
+            new_poss = {k: v.copy() for k, v in poss.items()}
+            new_poss[min_k].remove(n)
+            stack.append((new_state, new_poss))
+
+        # For the first value no need to copy we can reuse the current state
+        state[min_k] = values[0]
+        poss[min_k].remove(values[0])
+        stack.append((state, poss))
+
+    raise ValueError("Not solvable")
+
+
+def get_lines(sudoku):
+    for i in range(9):
+        yield [sudoku[i * 9 + j] for j in range(9) if i * 9 + j in sudoku]
+
+
+def get_columns(sudoku):
+    for j in range(9):
+        yield [sudoku[i * 9 + j] for i in range(9) if i * 9 + j in sudoku]
+
+
+def get_squares(sudoku):
+    for li in (0, 3, 6):
+        for lj in (0, 3, 6):
+            yield [
+                sudoku[i * 9 + j]
+                for i in range(li, li + 3)
+                for j in range(lj, lj + 3)
+                if i * 9 + j in sudoku
+            ]
+
+
+def is_solved(sudoku):
+    return all(
+        set(numbers) == {1, 2, 3, 4, 5, 6, 7, 8, 9}
+        for numbers in itertools.chain(
+            get_lines(sudoku), get_columns(sudoku), get_squares(sudoku)
+        )
+    )
 
 
 if __name__ == "__main__":
@@ -140,10 +168,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("file")
     args = parser.parse_args()
-    try:
-        with open(args.file) as f:
-            sudoku = read(f)
-            solve(sudoku)
-            show(sudoku)
-    except Exception as e:
-        print(e)
+    with open(args.file) as f:
+        sudoku = read(f)
+        solve(sudoku)
+        show(sudoku)
+        assert is_solved(sudoku)
