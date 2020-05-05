@@ -1,11 +1,11 @@
-use std::collections::HashMap;
-use std::collections::HashSet;
 use std::env;
 use std::fs::File;
 use std::io;
 use std::io::prelude::*;
 use std::iter::FromIterator;
 use std::path::Path;
+use rustc_hash::FxHashMap;
+use rustc_hash::FxHashSet;
 
 struct Sudoku {
     data: [u8; 81],
@@ -37,7 +37,7 @@ impl Sudoku {
                         if cn == 3 || cn == 7 {
                             continue;
                         }
-                        if c.to_string() != "." {
+                        if c != '.' {
                             data[i * 9 + j] = c.to_digit(10).unwrap() as u8;
                         }
                         j += 1;
@@ -74,10 +74,10 @@ impl Sudoku {
         }
     }
 
-    fn get_neighbor_indices(k: u8) -> HashSet<u8> {
+    fn get_neighbor_indices(k: u8) -> FxHashSet<u8> {
         let i = k / 9;
         let j = k % 9;
-        let mut indices = HashSet::new();
+        let mut indices = FxHashSet::default();
 
         for dj in 0..9 {
             if dj != j {
@@ -105,16 +105,16 @@ impl Sudoku {
     }
 
     fn solve(&mut self) {
-        let mut possibilities = HashMap::new();
+        let mut possibilities = FxHashMap::default();
         for k in 0..81 {
             if self.data[k as usize] == 0 {
-                let values: HashSet<u8> = HashSet::from_iter(1..10);
+                let values: FxHashSet<u8> = FxHashSet::from_iter(1..10);
                 possibilities.insert(k, values);
             }
         }
-        let unknown: HashSet<u8> = possibilities.iter().map(|(&k, _)| k).collect();
+        let unknown: FxHashSet<u8> = possibilities.iter().map(|(&k, _)| k).collect();
 
-        let mut neighbors: HashMap<u8, HashSet<u8>> = HashMap::new();
+        let mut neighbors: FxHashMap<u8, FxHashSet<u8>> = FxHashMap::default();
         for k in 0..81 {
             let indices = Sudoku::get_neighbor_indices(k);
             neighbors.insert(k, indices.intersection(&unknown).map(|&k| k).collect());
@@ -185,7 +185,7 @@ impl Sudoku {
 
             for &n in &values[1..] {
                 let mut new_state = state.copy();
-                let mut new_poss = HashMap::new();
+                let mut new_poss = FxHashMap::default();
                 for (&k, set) in &poss {
                     new_poss.insert(k, set.clone());
                 }
@@ -247,12 +247,12 @@ impl Sudoku {
     }
 
     fn is_solved(&self) -> bool {
-        let full: HashSet<u8> = HashSet::from_iter(1..10);
+        let full: FxHashSet<u8> = FxHashSet::from_iter(1..10);
 
         let parts = [self.get_lines(), self.get_columns(), self.get_squares()];
 
         for numbers in parts.iter().flat_map(|it| it.clone()) {
-            let h: HashSet<u8> = HashSet::from_iter(numbers);
+            let h: FxHashSet<u8> = FxHashSet::from_iter(numbers);
             if h != full {
                 return false;
             }
